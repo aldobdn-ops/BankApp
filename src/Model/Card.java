@@ -1,11 +1,14 @@
 package Model;
 
+import java.time.LocalDate;
+
 public class Card {
 
 	private String cardNumber;
-	private String CVV;
-	private String expirationDate;
-	private String cardPin;
+	private String hashCVV;
+	private LocalDate creationDate;
+	private LocalDate expirationDate;
+	private String hashPin;
 	private double dailyLimit;
 
 	private enum cardType {
@@ -23,12 +26,13 @@ public class Card {
 	public Card() {
 	}
 
-	public Card(String cardNumber, String cVV, String expirationDate, String cardPin, double dailyLimit) {
+	public Card(String cardNumber, String cVV, LocalDate creationDate ,LocalDate expirationDate, String cardPin, double dailyLimit) {
 		super();
 		this.cardNumber = cardNumber;
-		CVV = cVV;
+		this.hashCVV=cVV;
+		this.creationDate=creationDate;
 		this.expirationDate = expirationDate;
-		this.cardPin = cardPin;
+		this.hashPin = cardPin;
 		this.dailyLimit = dailyLimit;
 	}
 
@@ -41,27 +45,27 @@ public class Card {
 	}
 
 	public String getCVV() {
-		return CVV;
+		return hashCVV;
 	}
 
 	public void setCVV(String cVV) {
-		CVV = cVV;
+		hashCVV = cVV;
 	}
 
-	public String getExpirationDate() {
+	public LocalDate getExpirationDate() {
 		return expirationDate;
 	}
 
-	public void setExpirationDate(String expirationDate) {
+	public void setExpirationDate( LocalDate expirationDate) {
 		this.expirationDate = expirationDate;
 	}
 
 	public String getCardPin() {
-		return cardPin;
+		return hashPin;
 	}
 
 	public void setCardPin(String cardPin) {
-		this.cardPin = cardPin;
+		this.hashPin = cardPin;
 	}
 
 	public double getDailyLimit() {

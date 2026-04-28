@@ -1,19 +1,30 @@
 package Model;
 
-public class Admin {
+import java.time.LocalDateTime;
 
-	private String adminId;
+public class Admin extends User {
 
-	private enum adminRank {
+	public enum AdminRank {
 		ADMIN, SUPERADMIN
 	}
-
-	public String getId() {
-		return adminId;
+	private AdminRank adminRank;
+	
+	public Admin(int idUser, String NIE, String name, String address, String phoneNumber,
+            String email, String password, int passwordAttempts,
+            LocalDateTime lastConnection, LocalDateTime registerDate,
+            Role role, AdminRank adminRank) {
+   super(idUser, NIE, name, address, phoneNumber, email, password,
+         passwordAttempts, lastConnection, registerDate, role);
+   this.adminRank = adminRank;
+}
+	public AdminRank getAdminRank() {
+		return adminRank;
 	}
-
-	public void setManagerId(String managerId) {
-		this.adminId = adminId;
+	public void setAdminRank(AdminRank adminRank) {
+		this.adminRank = adminRank;
 	}
+	
+	
+	
 
 }

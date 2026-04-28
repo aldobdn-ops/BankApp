@@ -1,36 +1,27 @@
 package Model;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Customer extends User {
 
-	private String customerId;
-	private int numberOfBankAccounts;
-	private ArrayList<BankAccount> bankAccounts;
+	
+	
+	public Customer(int idUser, String nIE, String name, String address, String phoneNumber, String email,
+			String password, int passwordAttempts, LocalDateTime lastConnection, LocalDateTime registerDate,
+			Role role,double annualIncome) {
+		super(idUser, nIE, name, address, phoneNumber, email, password, passwordAttempts, lastConnection, registerDate, role);
+		this.annualIncome = annualIncome;
+	}
 	private double annualIncome;
-
-	public String getCustomerId() {
-		return customerId;
-	}
-
-	public void setCustomerId(String customerId) {
-		this.customerId = customerId;
-	}
-
-	public int getNumberOfBankAccounts() {
-		return numberOfBankAccounts;
-	}
-
-	public void setNumberOfBankAccounts(int numberOfBankAccounts) {
-		this.numberOfBankAccounts = numberOfBankAccounts;
-	}
-
+	
 	public double getAnnualIncome() {
 		return annualIncome;
 	}
-
 	public void setAnnualIncome(double annualIncome) {
 		this.annualIncome = annualIncome;
 	}
+
+	
 
 }
