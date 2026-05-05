@@ -1,1 +1,12 @@
-ç
+.classpath
+.project
+.settings/
+bin/
+*.class
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.tmp
+*.swp
