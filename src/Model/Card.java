@@ -4,6 +4,8 @@ import java.time.LocalDate;
 
 public class Card {
 
+	private int idCard;
+	private int idAccount;
 	private String cardNumber;
 	private String hashCVV;
 	private LocalDate creationDate;
@@ -11,13 +13,13 @@ public class Card {
 	private String hashPin;
 	private double dailyLimit;
 
-	private enum cardType {
+	public enum cardType {
 		DEBIT, CREDIT, PREPAID
 	}
 
 	private cardType cardType;
 
-	private enum status {
+	public enum status {
 		ACTIVE, INACTIVE, BLOCKED, EXPIRED, DISABLED
 	}
 
@@ -26,14 +28,19 @@ public class Card {
 	public Card() {
 	}
 
-	public Card(String cardNumber, String cVV, LocalDate creationDate ,LocalDate expirationDate, String cardPin, double dailyLimit) {
-		super();
+	public Card(int idCard,int idAccount, String cardNumber, String hashCVV, LocalDate creationDate, LocalDate expirationDate,
+			String hashPin, double dailyLimit, cardType cardType, status cardStatus) {
+
+		this.idCard = idCard;
+		this.idAccount = idAccount;
 		this.cardNumber = cardNumber;
-		this.hashCVV=cVV;
-		this.creationDate=creationDate;
+		this.hashCVV = hashCVV;
+		this.creationDate = creationDate;
 		this.expirationDate = expirationDate;
-		this.hashPin = cardPin;
+		this.hashPin = hashPin;
 		this.dailyLimit = dailyLimit;
+		this.cardType = cardType;
+		this.cardStatus = cardStatus;
 	}
 
 	public String getCardNumber() {

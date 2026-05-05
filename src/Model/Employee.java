@@ -1,40 +1,41 @@
 package Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Employee extends User {
 
 	private double salary;
-	private String hireDate;
+	private LocalDate hireDate;
 
 	
 	public Employee(int idUser, String nIE, String name, String address, String phoneNumber, String email,
 			String password, int passwordAttempts, LocalDateTime lastConnection, LocalDateTime registerDate,
-			Role role,double salary, String hireDate, Position position, Status status) {
+			Role role,double salary, LocalDate hireDate, Position position, Status status) {
 		super(idUser, nIE, name, address, phoneNumber, email, password, passwordAttempts, lastConnection, registerDate, role);
 		this.salary = salary;
 		this.hireDate = hireDate;
 		this.position = position;
 		this.status = status;
 	}
-	private enum Position {
+	public enum Position {
 		BRANCH_MANAGER, ASSISTANT_BRANCH_MANAGER, BANK_TELLER, SALES_REPRESENTATIVE
 	}
-	private Position position;
-	private enum Status {
+	public Position position;
+	public enum Status {
 		ACTIVE, ONLEAVE, TERMINATED
 	}
-	private Status status;
+	public Status status;
 	public double getSalary() {
 		return salary;
 	}
 	public void setSalary(double salary) {
 		this.salary = salary;
 	}
-	public String getHireDate() {
+	public LocalDate getHireDate() {
 		return hireDate;
 	}
-	public void setHireDate(String hireDate) {
+	public void setHireDate(LocalDate hireDate) {
 		this.hireDate = hireDate;
 	}
 	public Position getPosition() {

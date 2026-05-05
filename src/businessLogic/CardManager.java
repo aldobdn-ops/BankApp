@@ -5,7 +5,7 @@ import Model.User;
 import util.randomNumberBuilder;
 public class CardManager {
 
-	public Card createNewCard(User accountAssociated) {
+	/**public Card createNewCard(User accountAssociated) {
 		randomNumberBuilder rB = new randomNumberBuilder();
 		String cardNumber=rB.randomCardNumberBuilder();
 		String CVV = rB.randomCVVBuilder();
@@ -18,3 +18,4 @@ public class CardManager {
 	} 
 	
 }
+**/

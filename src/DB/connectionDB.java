@@ -26,11 +26,12 @@ public class connectionDB {
 	}
 	
 	public static Connection connect() { 
-		if(cn!=null) {
+		try {
+		if(cn!=null&& !cn.isClosed()) {
 			return cn;
 		}
 		else {
-		try {
+		
 			String URL = prop.getProperty("dbURL");
 			String User = prop.getProperty("dbUser");
 			String Pass = prop.getProperty("dbPass");
@@ -40,6 +41,7 @@ public class connectionDB {
 			}
 			cn = DriverManager.getConnection(URL,User,Pass);
 			return cn;
+		}
 		} catch (SQLException e) {
 			System.out.println("Failed connecting to database");
 			return null;
@@ -47,5 +49,5 @@ public class connectionDB {
 		//return cn;
 		
 	}
-	}
 }
+

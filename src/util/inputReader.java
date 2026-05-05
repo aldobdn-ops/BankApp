@@ -12,7 +12,7 @@ public class inputReader {
 	 * @param question
 	 * @return devuelve el entero introducido por el usuario
 	 */
-	public static int readEntero(String question) {
+	public static int readInteger(String question) {
 		System.out.println(question);
 		try {
 			while (!sc.hasNextInt()) {
