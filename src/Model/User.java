@@ -7,12 +7,12 @@ public abstract class User {
 	protected String NIE;
 	protected String name;
 	protected String address;
-	protected String phoneNumber;
 	protected String email;
 	protected String password;
 	protected int passwordAttempts;
 	protected LocalDateTime lastConnection;
 	protected LocalDateTime registerDate;
+	protected String phone;
 
 	
 	public enum Role {
@@ -23,20 +23,30 @@ public abstract class User {
 	public int getIdUser() {
 		return idUser;
 	}
-	public User(int idUser, String nIE, String name, String address, String phoneNumber, String email, String password,
+	public User(int idUser, String nIE, String name, String address,String phone,String email, String password,
 		int passwordAttempts, LocalDateTime lastConnection, LocalDateTime registerDate, Role role) {
 	this.idUser = idUser;
 	this.NIE= nIE;
 	this.name = name;
 	this.address = address;
-	this.phoneNumber = phoneNumber;
+	this.phone=phone;
 	this.email = email;
 	this.password = password;
 	this.passwordAttempts = passwordAttempts;
 	this.lastConnection = lastConnection;
 	this.registerDate = registerDate;
 	this.role = role;
-}
+	}
+	
+	public User(int idUser, String nIE, String name, String password, int passwordAttempts, Role role) {
+		super();
+		this.idUser = idUser;
+		NIE = nIE;
+		this.name = name;
+		this.password = password;
+		this.passwordAttempts = passwordAttempts;
+		this.role = role;
+	}
 	public void setIdUser(int idUser) {
 		this.idUser = idUser;
 	}
@@ -57,12 +67,6 @@ public abstract class User {
 	}
 	public void setAddress(String address) {
 		this.address = address;
-	}
-	public String getPhoneNumber() {
-		return phoneNumber;
-	}
-	public void setPhoneNumber(String phoneNumber) {
-		this.phoneNumber = phoneNumber;
 	}
 	public String getEmail() {
 		return email;

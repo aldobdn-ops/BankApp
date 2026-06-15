@@ -1,56 +1,65 @@
 package controller;
 
 import java.sql.SQLException;
-
-import DAO.BankAccountDAO;
-import DAO.CustomerDAO;
+import java.util.List;
 import Model.BankAccount;
 import Model.Customer;
-import Model.TransactionTypes.Bizum;
+import Model.TransactionTypes.BizumRequest;
+import Model.TransactionTypes.CashOperationRequest;
+import Model.TransactionTypes.TransferRequest;
 import businessLogic.BankAccountManager;
+import businessLogic.CustomerManager;
 import businessLogic.TransactionManager;
 import exceptions.BusinessException;
-import exceptions.DecimalNotAcceptedException;
-import exceptions.ExitException;
 import messageService.Messages;
+import views.TransactionView;
 import views.customer.CustomerView;
-import views.customer.subMenuBankingOperationView;
 
 public class CustomerController {
 
 	private Customer c;
 	private CustomerView cView;
-	private BankAccount cBankAccount;
-	private CustomerDAO cDao;
-	private BankAccountManager bankManager;
 	private TransactionManager tManager;
-	private BankAccountDAO bDao;
+	private TransactionView tView;
+	private CustomerManager cManager;
 
-	public CustomerController(Customer customer, CustomerView cView, CustomerDAO cusDAO, BankAccount cBankAccount) {
+	public CustomerController(Customer customer, CustomerView cView, BankAccountManager BAccManager,
+			TransactionView tView, CustomerManager cManager) {
 		super();
 		this.c = customer;
 		this.cView = cView;
-		this.cDao = cusDAO;
-		this.cBankAccount = cBankAccount;
-		this.bankManager = new BankAccountManager();
-		this.bDao= new BankAccountDAO();
-		this.tManager = new TransactionManager(bDao);
-		
+		this.tManager = new TransactionManager();
+		this.tView = tView;
+		this.cManager = cManager;
 	}
 
-	public void executeCustomer() { // todo implementar la vista del cliente
+	public void executeCustomer() throws SQLException { // todo implementar la vista del cliente
+
 		while (true) {
-		int option = cView.showMenuAndIntBack(customerMenu(), Messages.MENU_CHOOSE_INT);
-		
-		switch (option) {
-		case 1 -> bankingOperations();
-		// case 2: -> accountManagement();
-		// case 3: -> support();
-		case 0 -> { cView.showMessage(Messages.EXITING);
-					return;
+			//cView.showMenuAndIntBack(customerMenu(), Messages.MENU_CHOOSE_INT);
+			c.setBankAccounts(cManager.getCustomerBankAccountsAndCards(c.getIdUser()));
+			while (true) {
+				int option=0;
+				try {
+					option = cView.showMenuAndIntBack(customerMenu(), Messages.MENU_CHOOSE_INT);
+					switch (option) {
+					case 1 -> deposit();
+					case 2 -> withdraw();
+					case 3 -> transfer();
+					case 4 -> bizum();
+					case 5 -> showUserStats();
+					case 0 -> {
+						cView.showMessage(Messages.EXITING);
+						return;
+					}
+					default -> cView.showMessage(Messages.NOT_VALID_OPTION);
+					}
+				} catch (BusinessException e) {
+					cView.showMessage(e.getMessage());
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-		default -> throw new IllegalArgumentException("Unexpected value: " + option);
-		}
+			}
 		}
 	}
 
@@ -61,60 +70,45 @@ public class CustomerController {
 	 * @return
 	 */
 	private Runnable customerMenu() {
-
-		int id = c.getIdUser();
-		String iban = cBankAccount.getIBAN();
-		double balance = cBankAccount.getAccountBalance();
-		return () -> cView.showCustomerMenu(id, iban, balance);
+		List<BankAccount> BankList = c.getBankAccounts();
+		return () -> cView.showCustomerMenu(BankList);
 		// lambda que crea un ejecutable con las variables
 	}
 
 	private void showUserStats() {
-		cView.showUserStats(c, cBankAccount);
+		cView.showUserStats(c);
 	}
-	private void bankingOperations() {
-		int option=0;
-		while (true) {
-			
-		try {
-			subMenuBankingOperationView subBanking = new subMenuBankingOperationView();
-			option=cView.showMenuAndIntBack(subBanking::showBankingOperationsMenu, Messages.MENU_CHOOSE_INT);
-			switch (option) {
-			case 1 -> deposit();
-			case 2 -> withdraw();
-			case 3 -> transfer();
-			case 4 -> bizum();
-			case 5 -> showUserStats();
-			case 0 -> { cView.showMessage(Messages.EXITING);
-						return;
-					}
-			default-> cView.showMessage(Messages.NOT_VALID_OPTION);
-			}
-		} catch (BusinessException e) {
-			cView.showMessage(e.getMessage());
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		}
-			
-		}
-		
-	
+
 	private void deposit() throws SQLException {
-		tManager.makeDeposit(cView.getIntAmountorExit(), cBankAccount.getIBAN());
+		cView.showCustomerBankAccounts(c.getBankAccounts());
+		CashOperationRequest cR = tView.askCashOperationRequest();
+		cManager.checkOwnerbyIBAN(c, cR.getIban());
+		tManager.makeDeposit(cR);
+		cManager.updateCustomerBankInApp(c);
 	}
-	private void withdraw() throws SQLException{
-		tManager.makeWithdraw(cView.getIntAmountorExit(), cBankAccount.getIBAN());
+
+	private void withdraw() throws SQLException {
+		cView.showCustomerBankAccounts(c.getBankAccounts());
+		CashOperationRequest cR = tView.askCashOperationRequest();
+		cManager.checkOwnerbyIBAN(c, cR.getIban());
+		tManager.makeWithdraw(cR);
+		cManager.updateCustomerBankInApp(c);
 	}
-	private void transfer() throws SQLException{
-		tManager.transferService(cView.getIntAmountorExit(),
-				 cView.askForIBAN(Messages.ASK_FOR_ORIGIN_IBAN)
-				,cView.askForIBAN(Messages.ASK_FOR_DESTINY_IBAN));
+
+	private void transfer() throws SQLException {
+		cView.showCustomerBankAccounts(c.getBankAccounts());
+		TransferRequest tR = tView.askTransferRequest();
+		cManager.checkOwnerbyIBAN(c, tR.getOriginIBAN());
+		tManager.transferService(tR);
+		cManager.updateCustomerBankInApp(c);
 	}
-	private void bizum() throws SQLException{
-		tManager.transferService(cView.getIntAmountorExit(), 
-				bDao.getIBANbyphone(cView.askForPhoneNumber(Messages.ASK_FOR_ORIGIN_PHONE)), 
-				bDao.getIBANbyphone(cView.askForPhoneNumber(Messages.ASK_FOR_DESTINY_PHONE)));
+
+	private void bizum() throws SQLException {
+		cView.showCustomerBankAccounts(c.getBankAccounts());
+		BizumRequest bR = tView.askBizumRequest();
+		tManager.bizumService(bR);
+		cManager.updateCustomerBankInApp(c);
+
 	}
 }
 

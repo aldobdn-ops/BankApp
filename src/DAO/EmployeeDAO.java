@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import Model.Employee.Position;
 import Model.Employee.Status;
+import Model.User;
 import exceptions.EmployeeNotFoundException;
 import DB.connectionDB;
 import Model.Employee;

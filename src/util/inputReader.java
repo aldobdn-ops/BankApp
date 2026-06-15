@@ -2,6 +2,8 @@ package util;
 
 import java.util.Scanner;
 
+import exceptions.ExitRequestedException;
+
 
 public class inputReader {
 
@@ -15,6 +17,7 @@ public class inputReader {
 	public static int readInteger(String question) {
 		System.out.println(question);
 		try {
+			
 			while (!sc.hasNextInt()) {
 				
 				System.out.println("Invalid input. Try again: ");
@@ -36,6 +39,9 @@ public class inputReader {
 	 */
 	public static String readString(String input) {
 		try {
+			if (input.trim().equalsIgnoreCase("exit")) {
+				throw new ExitRequestedException();
+			}
 			System.out.println(input);
 			String result = sc.nextLine();
 			return result;

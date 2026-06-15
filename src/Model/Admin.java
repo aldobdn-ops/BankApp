@@ -17,6 +17,12 @@ public class Admin extends User {
          passwordAttempts, lastConnection, registerDate, role);
    this.adminRank = adminRank;
 }
+	
+	public Admin(int idUser, String nIE, String name, String password, int passwordAttempts, Role role) {
+		super(idUser, nIE, name, password, passwordAttempts, role);
+		// TODO Auto-generated constructor stub
+	}
+
 	public AdminRank getAdminRank() {
 		return adminRank;
 	}

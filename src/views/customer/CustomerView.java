@@ -1,57 +1,62 @@
 package views.customer;
+import java.util.List;
 
 import Model.BankAccount;
-import Model.Customer;
-import exceptions.ExitException;
-import messageService.Messages;
-import views.BaseView;
-import Model.BankAccount;
+/**
+ * vistas propias de cliente
+ */
+import views.BaseView;;
 
 public class CustomerView extends BaseView {
 
 	
-	public void showCustomerMenu(int id, String iban, double balance) {
+	public void showCustomerMenu(List<BankAccount> accounts) {
+
+		System.out.println("\n========================================================");
+		System.out.println("                BANKAPP - CUSTOMER AREA                 ");
+		System.out.println("========================================================");
+
+
+		System.out.println("--------------------------------------------------------");
+		System.out.println("                    CUSTOMER ACCOUNTS                   ");
+		System.out.println("--------------------------------------------------------");
+
+		for (BankAccount account : accounts) {
+
+			System.out.println("IBAN: " + account.getIBAN());
+
+			System.out.println("Bizum Phone: " + account.getBizumPhone());
+
+			System.out.println("--------------------------------------------------------");
+		}
+		showBankingOperationsMenu();
+		
+	}
+	public void showCustomerBankAccounts(List<BankAccount> cAccounts) {
+		for (BankAccount cAccount:cAccounts) {
+			System.out.println(
+					"IBAN: " + cAccount.getIBAN()
+					+ " | Balance: "
+					+ cAccount.getCurrentBalance()
+					+ "€"
+					+ " | Bizum Phone: "
+					+ cAccount.getBizumPhone()
+			);
+		}
+	}
+	public void showBankingOperationsMenu() {
 	    System.out.println("\n========================================================");
-	    System.out.println("                BANKAPP - CUSTOMER AREA                 ");
+	    System.out.println("              BANKAPP - BANKING OPERATIONS             ");
 	    System.out.println("========================================================");
-
-	    System.out.println("User ID: " + id);
-	    System.out.println("IBAN: " + iban);
-	    System.out.println("Balance: " + balance + " €");
-
+	    System.out.println("  1. Deposit money");
+	    System.out.println("  2. Withdraw money");
+	    System.out.println("  3. Transfer money");
+	    System.out.println("  4. Bizum");
+	    System.out.println("  5. View account details");
+	    System.out.println("  6. View transaction history");
 	    System.out.println("--------------------------------------------------------");
-
-	    // [1] Banking Operations
-	    System.out.println("  1. BANKING OPERATIONS");
-
-	    // [2] Account Management
-	    System.out.println("  2. ACCOUNT MANAGEMENT");
-
-	    // [3] Support
-	    System.out.println("  3. SUPPORT");
-
-	    System.out.println("--------------------------------------------------------");
-	    System.out.println("  0. LOGOUT");
+	    System.out.println("  0. Back");
+	    System.out.println("========================================================");
+	    
 	}
-	public void showUserStats(Customer c,BankAccount cBank) {
-
-	    System.out.println("\n========================================");
-	    System.out.println("        BANK ACCOUNT DETAILS            ");
-	    System.out.println("========================================");
-
-	 
-	    System.out.println("User ID: " + c.getIdUser());
-	    System.out.println("Name: " + c.getName());
-
-
-	    System.out.println("----------------------------------------");
-	    System.out.println("IBAN: " + cBank.getIBAN());
-	    System.out.println("Balance: " + cBank.getAccountBalance());
-	    System.out.println("Current Balance: " + cBank.getCurrentBalance());
-	    System.out.println("Transfer Limit: " + cBank.getTransferLimit());
-	    System.out.println("Overdraft Limit: " + cBank.getOverdraftLimit());
-
-	    System.out.println("========================================\n");
-	}
-	
 }

@@ -21,9 +21,13 @@ public final class Messages {
 	    public static final String ASK_FOR_DESTINY_IBAN = "Introduce destiny IBAN ";
 	    public static final String ASK_FOR_ORIGIN_PHONE = "Introduce origin phone ";
 	    public static final String ASK_FOR_DESTINY_PHONE = "Introduce destiny phone ";
-	    
-	    
+	    public static final String THANKS_FOR_USING = "Thanks for using BankApp..";
+	    public static final String ASK_FOR_IBAN= "Introduce IBAN";
+	    public static final String SHOW_BACC_NAME= "El nombre del titular de la cuenta es : ";
 	    public static final String EXITING = "...";
+	    public static final String PROBLEM_WITH_DB = "Problem with db";
+	    public static final String ASK_FOR_NIE = "Introduce NIE";
+	    
 	    
 }
 

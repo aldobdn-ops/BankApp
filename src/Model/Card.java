@@ -83,4 +83,60 @@ public class Card {
 		this.dailyLimit = dailyLimit;
 	}
 
+	public int getIdCard() {
+		return idCard;
+	}
+
+	public void setIdCard(int idCard) {
+		this.idCard = idCard;
+	}
+
+	public int getIdAccount() {
+		return idAccount;
+	}
+
+	public void setIdAccount(int idAccount) {
+		this.idAccount = idAccount;
+	}
+
+	public String getHashCVV() {
+		return hashCVV;
+	}
+
+	public void setHashCVV(String hashCVV) {
+		this.hashCVV = hashCVV;
+	}
+
+	public LocalDate getCreationDate() {
+		return creationDate;
+	}
+
+	public void setCreationDate(LocalDate creationDate) {
+		this.creationDate = creationDate;
+	}
+
+	public String getHashPin() {
+		return hashPin;
+	}
+
+	public void setHashPin(String hashPin) {
+		this.hashPin = hashPin;
+	}
+
+	public cardType getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(cardType cardType) {
+		this.cardType = cardType;
+	}
+
+	public status getCardStatus() {
+		return cardStatus;
+	}
+
+	public void setCardStatus(status cardStatus) {
+		this.cardStatus = cardStatus;
+	}
+
 }

@@ -6,26 +6,34 @@ public class BankAccount {
 	private int idUser;
 	private int idBankAccount;
 	private double currentBalance;
-	private double accountBalance;
 	private String IBAN;
 	private double transferLimit;
 	private List<Card> associatedCards;
 	private double overdraftLimit;
+	private String bizumPhone;
 
 	public BankAccount() {
 	}
 
-	public BankAccount(int idUser, int idBankAccount, double currentBalance, double accountBalance, String IBAN,
-			double transferLimit, List<Card> associatedCards, double overdraftLimit) {
+	public BankAccount(int idUser, int idBankAccount, double currentBalance,String IBAN,
+			double transferLimit, /**List<Card> associatedCards,**/ double overdraftLimit,String BizumPhone) {
 
 		this.idUser = idUser;
 		this.idBankAccount = idBankAccount;
 		this.currentBalance = currentBalance;
-		this.accountBalance = accountBalance;
 		this.IBAN = IBAN;
 		this.transferLimit = transferLimit;
-		this.associatedCards = associatedCards;
+		//this.associatedCards = associatedCards;
 		this.overdraftLimit = overdraftLimit;
+		this.bizumPhone= BizumPhone;
+	}
+
+	public String getBizumPhone() {
+		return bizumPhone;
+	}
+
+	public void setBizumPhone(String bizumPhone) {
+		this.bizumPhone = bizumPhone;
 	}
 
 	public int getIdUser() {
@@ -52,14 +60,6 @@ public class BankAccount {
 		this.currentBalance = currentBalance;
 	}
 
-	public double getAccountBalance() {
-		return accountBalance;
-	}
-
-	public void setAccountBalance(double accountBalance) {
-		this.accountBalance = accountBalance;
-	}
-
 	public String getIBAN() {
 		return IBAN;
 	}
@@ -82,7 +82,7 @@ public class BankAccount {
 
 	public void setAssociatedCards(List<Card> associatedCards) {
 		this.associatedCards = associatedCards;
-	}
+	} 
 
 	public double getOverdraftLimit() {
 		return overdraftLimit;

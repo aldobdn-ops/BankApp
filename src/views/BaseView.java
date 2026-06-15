@@ -1,10 +1,15 @@
 package views;
 
+import java.util.List;
+
 import Interface.IBankView;
+import Model.BankAccount;
+import Model.Customer;
 import exceptions.DecimalNotAcceptedException;
 import exceptions.ExitException;
 import exceptions.InvalidAmountException;
 import exceptions.InvalidIBANException;
+import exceptions.InvalidNIEexception;
 import exceptions.InvalidPhoneException;
 import messageService.Messages;
 import util.inputReader;
@@ -20,7 +25,7 @@ public abstract class BaseView implements IBankView {
 	}
 	public String askForIBAN(String message){
 		String regexIBAN = "^ES\\d{22}$";
-		String IBAN = (askandGetString(Messages.ASK_FOR_ORIGIN_IBAN)).replaceAll("\\s+", "").toUpperCase();
+		String IBAN = (askandGetString(message)).replaceAll("\\s+", "").toUpperCase();
 		if (IBAN.equalsIgnoreCase("exit")) {
 			throw new ExitException();
 		}
@@ -31,12 +36,23 @@ public abstract class BaseView implements IBankView {
 			return IBAN;
 		}
 	}
+	public String askForNIE(String message) {
+		String regexNIE = "^([XYZ]\\d{7}|\\d{8})[A-Z]$";
+		String NIE=(askandGetString(message)).replaceAll("\\s+", "").toUpperCase();
+		if(!NIE.matches(regexNIE)) {
+			throw new InvalidNIEexception();
+		}
+		else {
+			return NIE;
+		}
+	}
+	public String askForPassword(String message) {
+		String Password = (askandGetString(message)).trim();
+		return Password;
+	}
 	public String askForPhoneNumber(String message){
 		String phone = (askandGetString(message)).replaceAll(" ", "");
-		if (phone.equalsIgnoreCase("exit")) {
-			throw new ExitException();
-		}
-		else if (!phone.matches("^[6789]\\d{8}$")){
+		if (!phone.matches("^[6789]\\d{8}$")){
 			throw new InvalidPhoneException();
 		}
 		else {
@@ -70,17 +86,24 @@ public abstract class BaseView implements IBankView {
 	 * recoge un entero, si no lo es tira excepcion segun el fallo
 	 * @return numero entero
 	 */
-	public int getIntAmountorExit() {
+	public int getIntAmount() {
 		String amount = (askandGetString(Messages.ASK_FOR_AMOUNT)).trim();
-		if(amount.equalsIgnoreCase("exit")) {
-			throw new ExitException();
-		}
 		if (amount.matches("\\d+")) {
 			return Integer.parseInt(amount);
 		} else if (amount.matches("\\d+\\.\\d+")) {
 			throw new DecimalNotAcceptedException();
 		} else {
 			throw new InvalidAmountException();	
+		}
+	}
+	public double getDoubleAmount() {
+		String amount = (askandGetString(Messages.ASK_FOR_AMOUNT)).trim();
+		amount = amount.replace(",", ".");
+
+		if (amount.matches("\\d+(\\.\\d+)?")) {
+			return Double.parseDouble(amount);
+		} else {
+			throw new InvalidAmountException();
 		}
 	}
 	
@@ -99,5 +122,32 @@ public abstract class BaseView implements IBankView {
     public String showMenuAndStringBack(Runnable showMenu,String msg) {
 		showMenu.run();
 		return inputReader.readString(msg);
+	}
+    public void showUserStats(Customer c) {
+
+    	System.out.println("\n========================================");
+    	System.out.println("         BANK ACCOUNT DETAILS           ");
+    	System.out.println("========================================");
+
+    	System.out.println("Name: " + c.getName());
+
+    	System.out.println("========================================");
+
+		for (BankAccount cBank : c.getBankAccounts()) {
+
+			System.out.println("----------------------------------------");
+
+			System.out.println("IBAN: " + cBank.getIBAN());
+
+			System.out.println("Current Balance: " + cBank.getCurrentBalance() + " €");
+
+			System.out.println("Transfer Limit: " + cBank.getTransferLimit() + " €");
+
+			System.out.println("Overdraft Limit: " + cBank.getOverdraftLimit() + " €");
+
+			System.out.println("Bizum Phone: " + cBank.getBizumPhone());
+		}
+
+		System.out.println("========================================\n");
 	}
 }

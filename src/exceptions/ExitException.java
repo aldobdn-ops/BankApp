@@ -3,7 +3,7 @@ package exceptions;
 public class ExitException extends BusinessException{
 
 	public ExitException() {
-		super("Exit");
+		super("Exiting...");
 		// TODO Auto-generated constructor stub
 	}
 	public ExitException(String message) {

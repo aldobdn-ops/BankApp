@@ -18,6 +18,12 @@ public class Employee extends User {
 		this.position = position;
 		this.status = status;
 	}
+	
+	public Employee(int idUser, String nIE, String name, String password, int passwordAttempts, Role role) {
+		super(idUser, nIE, name, password, passwordAttempts, role);
+		// TODO Auto-generated constructor stub
+	}
+
 	public enum Position {
 		BRANCH_MANAGER, ASSISTANT_BRANCH_MANAGER, BANK_TELLER, SALES_REPRESENTATIVE
 	}

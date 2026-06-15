@@ -1,23 +1,43 @@
 package auth;
 
+import java.sql.SQLException;
+
 import DAO.UserDAO;
+import Model.LoginCredentials;
 import Model.User;
+import exceptions.AccountBlockedException;
 import exceptions.InvalidPasswordException;
+import util.PasswordManager;
 /**
  * Clase destinada a la verificación de los datos introducidos por el usuario para el login
  */
 
 	
 public class AuthService {
-	private UserDAO uDao;
+	
+	UserDAO uDAO;
 
-	public AuthService() {
+	public AuthService(UserDAO uDAO) {
+		this.uDAO= uDAO;
 	}
 
-	public void login(User userBD, String passwordInput) {
-		if (!userBD.getPassword().equals(passwordInput)) {
-			throw new InvalidPasswordException();
+	public void login(User u,LoginCredentials lC) throws SQLException {
+		if (u.getPasswordAttempts() >= 3) {		
+	        throw new AccountBlockedException();
+	    }
+		if (!PasswordManager.verify(lC.getPassword(), u.getPassword())) {
+			uDAO.raiseAttempts(lC.getNie());
+			u.setPasswordAttempts(u.getPasswordAttempts()+1);
+			if(u.getPasswordAttempts()==3) {
+				throw new AccountBlockedException();
+			}
+			else {
+				throw new InvalidPasswordException();
+			}
+			
 		}
+		uDAO.resetAttempts(u.getNIE());
+		
 	}
 }
 /**

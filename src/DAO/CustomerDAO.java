@@ -1,22 +1,17 @@
 package DAO;
-
-import java.security.PrivateKey;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-
 import DB.connectionDB;
 import Model.BankAccount;
 import Model.Card;
 import Model.Card.cardType;
 import Model.Card.status;
-import Model.User;
-
+import exceptions.AccountNotFoundException;
 
 public class CustomerDAO {
 
@@ -47,10 +42,11 @@ public class CustomerDAO {
 			
 			} catch (SQLException e) {
 				e.printStackTrace();
+				throw new AccountNotFoundException();
 			}			
-			return (Double) null;
+			
 	}
-	public BankAccount getCustomerBankAccountbyId(int idUser) throws SQLException {
+	public BankAccount getBankAccbyId(int idUser) throws SQLException {
 		String query = "SELECT * FROM BANK_ACCOUNT WHERE ID_USER = ?";
 		BankAccount cBankAc = new BankAccount();
 		try(Connection cn=connectionDB.connect();
@@ -68,12 +64,12 @@ public class CustomerDAO {
 		int idUser= rs.getInt("id_user");
 		int idAccount=rs.getInt("id_account");
 		double currentBalance=rs.getDouble("current_balance");
-		double accountBalance=rs.getDouble("account_balance");
 		String iban=rs.getString("iban");
 		double transferLimit=rs.getDouble("transfer_limit");
 		double overdraftLimit=rs.getDouble("overdraft_limit");
-		List<Card> associatedCards= getCardsByAccountID(idAccount);
-		return new BankAccount(idUser,idAccount,currentBalance,accountBalance,iban,transferLimit,associatedCards,overdraftLimit);
+		String Phone = rs.getString("BIZUM_PHONE");
+		//List<Card> associatedCards= getCardsByAccountID(idAccount);
+		return new BankAccount(idUser,idAccount,currentBalance,iban,transferLimit,overdraftLimit,Phone);
 	}
 
 	private Card mapCard(ResultSet rs) throws SQLException {
@@ -92,7 +88,7 @@ public class CustomerDAO {
 				cardType, cardStatus);
 	}
 
-	private List<Card> getCardsByAccountID(int accountID) throws SQLException {
+	public List<Card> getCardsByAccountID(int accountID) throws SQLException {
 		String query = "Select * from card where id_account=?";
 		List<Card> cardList = new ArrayList<Card>();
 		try (Connection cn = connectionDB.connect(); 
@@ -106,4 +102,44 @@ public class CustomerDAO {
 		}
 		return cardList;
 	}
+	public List<BankAccount> getCustomerBankAccounts (int id_user) throws SQLException{
+		String query = "SELECT * FROM bank_account WHERE id_user = ?";
+
+	    List<BankAccount> accounts = new ArrayList<>();
+
+	    try (Connection cn = connectionDB.connect();
+	         PreparedStatement psmt = cn.prepareStatement(query)) {
+
+	        psmt.setInt(1, id_user);
+	        ResultSet rs = psmt.executeQuery();
+
+	        while (rs.next()) {
+	            BankAccount account = mapBankAccount(rs);
+	            accounts.add(account);
+	        }
+	    }
+
+	    return accounts;
+	}
+
+	public List<String> getCustomerPhoneNumbers(int id_user) throws SQLException {
+
+		List<String> phoneNumbers = new ArrayList<>();
+		String query = """
+						SELECT PHONE_NUMBER
+						FROM USER_PHONE
+						WHERE ID_USER = ?
+				""";
+		try (Connection cn = connectionDB.connect(); PreparedStatement ps = cn.prepareStatement(query)) {
+			ps.setInt(1, id_user);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				phoneNumbers.add(rs.getString("PHONE_NUMBER"));
+			}
+		}
+		return phoneNumbers;
+	}
 }
+
