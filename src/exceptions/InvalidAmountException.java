@@ -4,11 +4,11 @@ public class InvalidAmountException extends BusinessException {
 
 	public InvalidAmountException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public InvalidAmountException() {
 		super("Invalid amount for transfer.");
-		// TODO Auto-generated construor stub
+		// TODO Constructor generado automáticamente
 	}
 	
 }

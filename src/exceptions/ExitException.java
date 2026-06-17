@@ -4,11 +4,11 @@ public class ExitException extends BusinessException{
 
 	public ExitException() {
 		super("Exiting...");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public ExitException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	
 }

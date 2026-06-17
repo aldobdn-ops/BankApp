@@ -12,6 +12,10 @@ import Model.Employee;
 import Model.User;
 import DB.connectionDB;
 
+/**
+ * DAO para la gestión de usuarios en la base de datos.
+ * Proporciona métodos para buscar usuarios (completos o simples) por NIE, mapear resultados y gestionar intentos de contraseña.
+ */
 public class UserDAO {
 
 	
@@ -68,10 +72,10 @@ public class UserDAO {
 
 		case EMPLOYEE:
 			user = new Employee(idUser, NIE, name, address, phoneNumber, email, password, passwordAttempts,
-					lastConnection, registerDate, role, 0.0, // salary
-					null, // hireDate
-					null, // position
-					null); // status
+					lastConnection, registerDate, role, 0.0, // salario
+					null, // fechaContratacion
+					null, // puesto
+					null); // estado
 			break;
 
 		case MANAGER:

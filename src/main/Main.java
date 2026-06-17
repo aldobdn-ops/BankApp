@@ -1,4 +1,6 @@
+
 package main;
+
 import DAO.UserDAO;
 import auth.AuthService;
 import businessLogic.AccountManager;
@@ -14,9 +16,9 @@ public class Main {
 		UserDAO uDao = new UserDAO();
 		AuthService authService = new AuthService(uDao);
 		BankAccountManager bManager = new BankAccountManager();
-		AccountManager aManager = new AccountManager();
-		UserSessionFactory uSF = new UserSessionFactory(bManager);
-		LoginController lC = new LoginController(lView, uDao, authService, aManager, uSF);
+		AccountManager aManager = new AccountManager(uDao);
+		UserSessionFactory uSF = new UserSessionFactory(bManager, aManager, uDao);
+		LoginController lC = new LoginController(lView, authService, aManager, uSF);
 		lC.LoginEntry();
 	}
 }

@@ -13,6 +13,10 @@ import Model.Card.cardType;
 import Model.Card.status;
 import exceptions.AccountNotFoundException;
 
+/**
+ * DAO encargado del acceso y manipulación de datos sobre clientes,
+ * incluyendo sus cuentas bancarias, tarjetas asociadas y teléfonos de contacto.
+ */
 public class CustomerDAO {
 
 	public String findIBANbyId(int idUser) throws SQLException {

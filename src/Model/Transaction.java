@@ -16,10 +16,10 @@ public class Transaction {
 	protected String destinyIBAN;
 	protected String originPhone;
 	protected String destinyPhone;
+
 	public enum TransactionType {
 		TRANSFER,
 		BIZUM,
-		CARDPAYMENT,
 		DEPOSIT,
 		WITHDRAWAL
 	}
@@ -30,8 +30,10 @@ public class Transaction {
 		COMPLETED,
 		CANCELED
 	}
+
 	public TransactionStatus tStatus;
-	//Constructor para transferencias
+
+	// Constructor para transferencias
 	public Transaction(double amount, Integer idAccountOrigin, Integer idAccountDestination, String originIBAN,
 			String destinyIBAN, TransactionType tType, TransactionStatus tStatus) {
 		super();
@@ -43,8 +45,8 @@ public class Transaction {
 		this.tType = tType;
 		this.tStatus = tStatus;
 	}
-	
-	//Constructor para Cash transactions
+
+	// Constructor para transacciones en efectivo
 	public Transaction(double amount, Integer idAccountOrigin, String originIBAN, TransactionType tType,
 			TransactionStatus tStatus) {
 		super();
@@ -54,8 +56,8 @@ public class Transaction {
 		this.tType = tType;
 		this.tStatus = tStatus;
 	}
-	
-// constructor para bizum
+
+	// constructor para bizum
 	public Transaction(double amount, Integer idAccountOrigin, Integer idAccountDestination, String originIBAN,
 			String destinyIBAN, String originPhone, String destinyPhone, TransactionType tType,
 			TransactionStatus tStatus) {
@@ -142,9 +144,23 @@ public class Transaction {
 	public void settStatus(TransactionStatus tStatus) {
 		this.tStatus = tStatus;
 	}
-	
-	
+
+	protected LocalDateTime createdAt;
+	protected String description;
+
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
 }
-
-
-

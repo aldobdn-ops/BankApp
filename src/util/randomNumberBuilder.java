@@ -1,5 +1,8 @@
 package util;
 import java.util.Random;
+/**
+ * Utilidad para generar datos numéricos aleatorios (CVV, números de tarjeta y PIN).
+ */
 public class randomNumberBuilder {
 	/**
 	 * funcion para generar CVV aleatorio

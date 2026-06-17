@@ -3,6 +3,10 @@ package Model;
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * Modelo que representa a un Cliente del banco.
+ * Hereda de User e incluye sus cuentas bancarias e ingresos anuales.
+ */
 public class Customer extends User {
 
 	private List <BankAccount> BankAccounts;
@@ -23,7 +27,7 @@ public class Customer extends User {
 	
 	public Customer(int idUser, String nIE, String name, String password, int passwordAttempts, Role role) {
 		super(idUser, nIE, name, password, passwordAttempts, role);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 
 

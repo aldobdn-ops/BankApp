@@ -12,7 +12,7 @@ public class CustomerNotOwnerException extends BusinessException {
 
 	public CustomerNotOwnerException() {
 		super("You are not owner of this Bank account");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 
 }

@@ -4,10 +4,10 @@ public class InvalidIBANException extends BusinessException {
 
 	public InvalidIBANException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public InvalidIBANException() {
 		super("Invalid IBAN introduced ");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 }

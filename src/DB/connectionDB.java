@@ -18,11 +18,39 @@ public class connectionDB {
 	static { 
 		// 1. Cargamos tu archivo properties exactamente igual que antes
 		System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "warn");
-		try (InputStream input = connectionDB.class.getClassLoader().getResourceAsStream("DBconfig.properties")) {
-			if(input == null) {
-				throw new RuntimeException("Can't find DBconfig.properties");
+		InputStream input = connectionDB.class.getClassLoader().getResourceAsStream("DBconfig.properties");
+		if (input == null) {
+			input = connectionDB.class.getClassLoader().getResourceAsStream("resources/DBconfig.properties");
+		}
+		if (input == null) {
+			// Intentar cargar como archivo directo en el sistema de archivos
+			java.io.File file = new java.io.File("src/resources/DBconfig.properties");
+			if (file.exists()) {
+				try {
+					input = new java.io.FileInputStream(file);
+				} catch (java.io.FileNotFoundException e) {
+					// ignorar y continuar
+				}
 			}
-			prop.load(input); 
+		}
+		if (input == null) {
+			java.io.File file = new java.io.File("resources/DBconfig.properties");
+			if (file.exists()) {
+				try {
+					input = new java.io.FileInputStream(file);
+				} catch (java.io.FileNotFoundException e) {
+					// ignorar y continuar
+				}
+			}
+		}
+
+		if (input == null) {
+			throw new RuntimeException("Can't find DBconfig.properties. Please check classpath or file locations.");
+		}
+
+		try {
+			prop.load(input);
+			input.close();
 		} catch (IOException e) {
 			throw new RuntimeException("Failed loading DB properties");
 		}
@@ -50,7 +78,6 @@ public class connectionDB {
 
 		// Inicializamos el pool
 		ds = new HikariDataSource(config);
-		System.out.println("✅ HikariCP Pool iniciado correctamente desde DBconfig.properties");
 	}
 	
 	// 3. Tu método connect() ahora pide una conexión rápida al pool

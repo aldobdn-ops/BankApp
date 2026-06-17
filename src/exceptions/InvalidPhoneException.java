@@ -4,10 +4,10 @@ public class InvalidPhoneException extends BusinessException{
 
 	public InvalidPhoneException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public InvalidPhoneException() {
 		super("Invalid phone introduced");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 }

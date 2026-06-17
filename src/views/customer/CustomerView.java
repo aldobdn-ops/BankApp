@@ -2,6 +2,7 @@ package views.customer;
 import java.util.List;
 
 import Model.BankAccount;
+import Model.Transaction;
 /**
  * vistas propias de cliente
  */

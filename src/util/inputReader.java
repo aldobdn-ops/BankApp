@@ -16,38 +16,39 @@ public class inputReader {
 	 */
 	public static int readInteger(String question) {
 		System.out.println(question);
-		try {
-			
-			while (!sc.hasNextInt()) {
-				
+		while (true) {
+			try {
+				String line = sc.nextLine().trim();
+				if (line.equalsIgnoreCase("exit")) {
+					throw new ExitRequestedException();
+				}
+				return Integer.parseInt(line);
+			} catch (ExitRequestedException e) {
+				throw e;
+			} catch (NumberFormatException e) {
 				System.out.println("Invalid input. Try again: ");
-				sc.next();
+			} catch (Exception e) {
+				throw new RuntimeException("Fatal error reading int");
 			}
-			int result = sc.nextInt();
-			sc.nextLine();
-			return result;
-		} catch (Exception e) {
-			throw new RuntimeException("Fatal error reading int");
 		}
-		
-		
 	}
 	/**
 	 * funcion para leer un string que introduzca el usuario
-	 * @param input
+	 * @param question
 	 * @return el string introducido por el usuario
 	 */
-	public static String readString(String input) {
+	public static String readString(String question) {
 		try {
-			if (input.trim().equalsIgnoreCase("exit")) {
+			System.out.println(question);
+			String result = sc.nextLine();
+			if (result.trim().equalsIgnoreCase("exit")) {
 				throw new ExitRequestedException();
 			}
-			System.out.println(input);
-			String result = sc.nextLine();
 			return result;
+		} catch (ExitRequestedException e) {
+			throw e;
 		} catch (Exception e) {
 			throw new RuntimeException("Fatal error reading String");
 		}
-		
 	}
 }

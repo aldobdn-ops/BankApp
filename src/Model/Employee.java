@@ -21,7 +21,7 @@ public class Employee extends User {
 	
 	public Employee(int idUser, String nIE, String name, String password, int passwordAttempts, Role role) {
 		super(idUser, nIE, name, password, passwordAttempts, role);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 
 	public enum Position {

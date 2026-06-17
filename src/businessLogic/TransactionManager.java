@@ -1,6 +1,7 @@
 package businessLogic;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.time.LocalDateTime;
 import DAO.BankAccountDAO;
 import DAO.TransactionDAO;
@@ -106,5 +107,26 @@ public class TransactionManager {
 		return new Transaction(bR.getAmount(),idOriginAcc,idDestinyAcc,originIBAN,destinyIBAN,
 				bR.getOriginPhoneNumber(),bR.getDestinyPhoneNumber(),TransactionType.BIZUM,
 				Transaction.TransactionStatus.COMPLETED);
+	}
+
+	/**
+	 * Obtiene el historial de transacciones asociadas a un ID de cuenta.
+	 * @param accountId El ID de la cuenta bancaria
+	 * @return Lista de transacciones ordenadas cronológicamente
+	 * @throws SQLException Si ocurre algún fallo de base de datos
+	 */
+	public List<Transaction> getTransactionsByAccountId(int accountId) throws SQLException {
+		return tDao.getTransactionsByAccountId(accountId);
+	}
+
+	/**
+	 * Obtiene el historial de transacciones de una cuenta buscando por su IBAN.
+	 * @param iban El IBAN de la cuenta bancaria
+	 * @return Lista de transacciones correspondientes a la cuenta
+	 * @throws SQLException Si ocurre algún fallo de base de datos
+	 */
+	public List<Transaction> getTransactionsByIBAN(String iban) throws SQLException {
+		int accountId = bDao.getIdBankbyIBAN(iban);
+		return tDao.getTransactionsByAccountId(accountId);
 	}
 }

@@ -8,7 +8,7 @@ public class InvalidPasswordException extends BusinessException {
 
 	public InvalidPasswordException(String message) {
 		super("Wrong password introduced");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 
 	

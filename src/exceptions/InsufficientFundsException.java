@@ -4,11 +4,11 @@ public class InsufficientFundsException extends BusinessException {
 
 	public InsufficientFundsException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public InsufficientFundsException() {
 		super("Insfuccient funds");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	
 	

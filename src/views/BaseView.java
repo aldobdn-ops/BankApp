@@ -5,6 +5,7 @@ import java.util.List;
 import Interface.IBankView;
 import Model.BankAccount;
 import Model.Customer;
+import Model.Transaction;
 import exceptions.DecimalNotAcceptedException;
 import exceptions.ExitException;
 import exceptions.InvalidAmountException;
@@ -148,6 +149,55 @@ public abstract class BaseView implements IBankView {
 			System.out.println("Bizum Phone: " + cBank.getBizumPhone());
 		}
 
+		System.out.println("========================================\n");
+	}
+
+	/**
+	 * Muestra en pantalla el historial de transacciones formateado como una tabla.
+	 * @param transactions Lista de transacciones a mostrar
+	 * @param iban El IBAN de la cuenta consultada
+	 */
+	public void showTransactionHistory(List<Transaction> transactions, String iban) {
+		System.out.println("\n========================================================");
+		System.out.println("          TRANSACTION HISTORY FOR IBAN: " + iban);
+		System.out.println("========================================================");
+		if (transactions.isEmpty()) {
+			System.out.println("  No transactions found for this account.");
+		} else {
+			System.out.printf("%-19s | %-12s | %-12s | %-22s | %-22s | %-10s%n", 
+				"Date", "Type", "Amount", "Origin", "Destiny", "Status");
+			System.out.println("------------------------------------------------------------------------------------------------------");
+			for (Transaction t : transactions) {
+				String dateStr = t.getCreatedAt() != null ? t.getCreatedAt().toString().replace('T', ' ').substring(0, 19) : "N/A";
+				String typeStr = t.gettType() != null ? t.gettType().name() : "N/A";
+				String statusStr = t.gettStatus() != null ? t.gettStatus().name() : "N/A";
+				double amount = t.getAmount();
+				
+				String origin = t.getOriginIBAN() != null ? t.getOriginIBAN() : (t.getOriginPhone() != null ? t.getOriginPhone() : "-");
+				String destiny = t.getDestinyIBAN() != null ? t.getDestinyIBAN() : (t.getDestinyPhone() != null ? t.getDestinyPhone() : "-");
+				
+				System.out.printf("%-19s | %-12s | %10.2f€  | %-22s | %-22s | %-10s%n", 
+					dateStr, typeStr, amount, origin, destiny, statusStr);
+			}
+		}
+		System.out.println("========================================================\n");
+	}
+
+	/**
+	 * Muestra por pantalla la información detallada de una cuenta bancaria individual.
+	 * @param b La cuenta bancaria a mostrar
+	 * @param ownerName Nombre del titular de la cuenta
+	 */
+	public void showBankAccountStats(BankAccount b, String ownerName) {
+		System.out.println("\n========================================");
+		System.out.println("         BANK ACCOUNT DETAILS           ");
+		System.out.println("========================================");
+		System.out.println("Owner: " + ownerName);
+		System.out.println("IBAN: " + b.getIBAN());
+		System.out.println("Current Balance: " + b.getCurrentBalance() + " €");
+		System.out.println("Transfer Limit: " + b.getTransferLimit() + " €");
+		System.out.println("Overdraft Limit: " + b.getOverdraftLimit() + " €");
+		System.out.println("Bizum Phone: " + b.getBizumPhone());
 		System.out.println("========================================\n");
 	}
 }

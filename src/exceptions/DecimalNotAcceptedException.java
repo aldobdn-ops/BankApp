@@ -4,10 +4,10 @@ public class DecimalNotAcceptedException extends BusinessException {
 
 	public DecimalNotAcceptedException(String message) {
 		super(message);
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 	public DecimalNotAcceptedException() {
 		super("Decimal numbers not accepted.");
-		// TODO Auto-generated constructor stub
+		// TODO Constructor generado automáticamente
 	}
 }

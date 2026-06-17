@@ -5,6 +5,10 @@ package util;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+/**
+ * Utilidad para gestionar la seguridad de las contraseñas mediante hashing BCrypt.
+ * Permite cifrar contraseñas nuevas y verificar contraseñas durante el inicio de sesión.
+ */
 public class PasswordManager {
 	// Coste del algoritmo: 2^10 = 1024 iteraciones internas.
 	// Rango recomendado: 10-12. No bajar de 10 en producción.

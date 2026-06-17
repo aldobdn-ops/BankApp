@@ -2,6 +2,10 @@ package Model;
 
 import java.time.LocalDateTime;
 
+/**
+ * Clase abstracta que representa a un usuario base del sistema.
+ * Contiene información común como NIE, nombre, email, contraseña, intentos de contraseña y rol.
+ */
 public abstract class User {
 	protected int idUser;
 	protected String NIE;

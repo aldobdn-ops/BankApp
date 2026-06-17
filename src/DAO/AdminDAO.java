@@ -11,6 +11,9 @@ import Model.User;
 import exceptions.AdminNotFoundException;
 import exceptions.BusinessException;
 
+/**
+ * DAO para la gestión de datos de los administradores en la base de datos.
+ */
 public class AdminDAO {
 
 	public Admin buildSpecificAdmin(Admin a) throws BusinessException,SQLException {
@@ -19,7 +22,7 @@ public class AdminDAO {
 		
 	}
 	public AdminRank getAdminRank(Admin a) throws BusinessException,SQLException {
-		String query = "SELECT ADMIN_RANK FROM ADMIN WHER ID_USER= ?";
+		String query = "SELECT ADMIN_RANK FROM ADMIN WHERE ID_USER= ?";
 		try(Connection cn=connectionDB.connect();
 				PreparedStatement ps=cn.prepareStatement(query)){
 			ps.setInt(1,a.getIdUser());
